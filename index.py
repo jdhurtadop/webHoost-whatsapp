@@ -1,6 +1,9 @@
+import os
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Permite peticiones desde cualquier origen (CORS)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -8,11 +11,10 @@ def home():
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    data = request.json  # Recibe el JSON enviado por WhatsApp
-    print("Mensaje recibido:", data)  # Imprime el webhook en la consola
+    data = request.json
+    print("Mensaje recibido:", data)
     return "OK", 200
 
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))  # Obtiene el puerto de Render
+    port = int(os.environ.get("PORT", 10000))  # Usa la variable de entorno PORT
     app.run(host="0.0.0.0", port=port)
